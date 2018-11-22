@@ -510,7 +510,7 @@
                 default:
                     colour = "red";
             }
-            $('<div class="confetti-' + i + ' ' + colour + '" ondragstart="preventDrag()"></div>').css({
+            $('<div class="confetti-' + i + ' ' + colour + '" ></div>').css({
                 "width": width + "px",
                 "height": height + "px",
                 "top": -Math.random() * 20 + "%",
@@ -536,7 +536,7 @@
                 "top": -Math.random() * 20 + "%",
                 "left": "-=" + Math.random() * 15 + "%"
             }, 0, function () {
-                drop(x);
+                dropConfetti(x);
             });
         }
     </script>
