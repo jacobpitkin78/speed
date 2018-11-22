@@ -15,6 +15,7 @@ import com.cs3750.messages.*;
 @ServerEndpoint("/game")
 public class Endpoint {
 	private ArrayList<Session> connections = new ArrayList<Session>();
+	private GameHandler game;
     
     @OnOpen
     public void onOpen(Session session) {
@@ -22,6 +23,10 @@ public class Endpoint {
         
         if (connections.size() < 2) {
         	connections.add(session);
+        }
+        
+        if (connections.size() == 2) {
+        	game = new GameHandler();
         }
     }
     
@@ -39,9 +44,29 @@ public class Endpoint {
         }
     }
     
-    @OnMessage
+    @SuppressWarnings("static-access")
+	@OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("onMessage::From=" + session.getId() + " Message=" + message);
+        
+        Message returnMessage = game.messageIn(MessageFactory.parse(message));
+        try {
+        	if (returnMessage instanceof AckMessage) {
+        		// implement ack message in MessageFactory
+            } else if (returnMessage instanceof ChatMessage) {
+            	session.getBasicRemote().sendText(MessageFactory.getChatMessage((ChatMessage)returnMessage));
+            } else if (returnMessage instanceof GameMessage) {
+            	session.getBasicRemote().sendText(MessageFactory.getGameMessage((GameMessage)returnMessage));
+            } else if (returnMessage instanceof InvalidMessage) {
+            	session.getBasicRemote().sendText(MessageFactory.getInvalidMessage((InvalidMessage)returnMessage));
+            } else if (returnMessage instanceof ResultsMessage) {
+            	// implement results message in MessageFactory
+            } else if (returnMessage instanceof StartMessage) {
+            	session.getBasicRemote().sendText(MessageFactory.getStartMessage((StartMessage)returnMessage));
+            }
+        } catch (IOException e) {
+        	e.printStackTrace();
+        }
         
         try {
             session.getBasicRemote().sendText("Hello Client " + session.getId() + "!");
