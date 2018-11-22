@@ -14,19 +14,17 @@ import com.cs3750.messages.*;
 
 @ServerEndpoint("/game")
 public class Endpoint {
-	private ArrayList<Session> connections = new ArrayList<Session>();
-	private GameHandler game;
+	private static ArrayList<Session> connections = new ArrayList<Session>();
+	private static int starts = 0;
+	private static GameHandler game;
     
     @OnOpen
     public void onOpen(Session session) {
-        System.out.println("onOpen::" + session.getId()); 
+        System.out.println("onOpen::" + session.getId());
+        System.out.println(connections.size());
         
         if (connections.size() < 2) {
         	connections.add(session);
-        }
-        
-        if (connections.size() == 2) {
-        	game = new GameHandler();
         }
     }
     
@@ -48,8 +46,28 @@ public class Endpoint {
 	@OnMessage
     public void onMessage(String message, Session session) {
         System.out.println("onMessage::From=" + session.getId() + " Message=" + message);
+        Message incoming = MessageFactory.parse(message);
         
-        Message returnMessage = game.messageIn(MessageFactory.parse(message));
+//        if (incoming instanceof ConnectMessage) {
+//        	starts++;
+//        	System.out.println("Starts: " + starts);
+//        	
+//        	if (starts == 2) {
+//        		System.out.println("should start");
+//        		game = new GameHandler();
+//        	}
+//        }
+        
+//        if (game == null || connections.size() < 2) {
+//        	System.out.println("returning");
+//        	return;
+//        }
+        
+        if (game == null) {
+        	game = new GameHandler();
+        }
+        
+        Message returnMessage = game.messageIn(incoming);
         try {
         	if (returnMessage instanceof AckMessage) {
         		session.getBasicRemote().sendText(MessageFactory.getAckMessage());
@@ -90,8 +108,18 @@ public class Endpoint {
             		connections.get(0).getBasicRemote().sendText(MessageFactory.getOpponentCards(results.getPlayerBCards()));
             		connections.get(1).getBasicRemote().sendText(MessageFactory.getOpponentCards(results.getPlayerACards()));
             	}
+            } else if (returnMessage instanceof ConnectMessage) {
+            	session.getBasicRemote().sendText(MessageFactory.getConnectMessage((ConnectMessage)returnMessage));
             } else if (returnMessage instanceof StartMessage) {
-            	session.getBasicRemote().sendText(MessageFactory.getStartMessage((StartMessage)returnMessage));
+            	System.out.println("StartMessage");
+            	StartMessage start = (StartMessage)returnMessage;
+            	
+            	connections.get(0).getBasicRemote().sendText(MessageFactory.getOpponentCards(start.getPlayerBOnHand()));
+            	connections.get(1).getBasicRemote().sendText(MessageFactory.getOpponentCards(start.getPlayerAOnHand()));
+            	connections.get(0).getBasicRemote().sendText(MessageFactory.getMiddleCards(start.getMiddle()));
+            	connections.get(1).getBasicRemote().sendText(MessageFactory.getMiddleCards(start.getMiddle()));
+            	connections.get(0).getBasicRemote().sendText(MessageFactory.getPlayerCards(start.getPlayerAOnHand()));
+            	connections.get(1).getBasicRemote().sendText(MessageFactory.getPlayerCards(start.getPlayerBOnHand()));
             }
         } catch (IOException e) {
         	e.printStackTrace();

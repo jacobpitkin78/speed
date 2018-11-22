@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.json.Json;
+import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
+import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
 import javax.json.JsonReader;
 
@@ -18,7 +20,7 @@ public class MessageFactory {
 		return objBuilder.build().toString();
 	}
 	
-	public String getConnectMessage(ConnectMessage connectMessage) {
+	public static String getConnectMessage(ConnectMessage connectMessage) {
 		return getConnectMessage(connectMessage.getUsername());
 	}
 	
@@ -103,7 +105,7 @@ public class MessageFactory {
 		return objBuilder.build().toString();
 	}
 	
-	public String getMiddleCards(MiddleCards middleCards) {
+	public static String getMiddleCards(MiddleCards middleCards) {
 		return getMiddleCards(middleCards.getCards());
 	}
 	
@@ -178,39 +180,42 @@ public class MessageFactory {
 	
 	public static Message parse(String json) {
 		JsonReader reader = Json.createReader(new StringReader(json));
-    	String type = reader.readObject().getString("type");
+		JsonObject object = reader.readObject();
+    	String type = object.getString("type");
     	
     	if (type.equals("ack")) {
     		return new AckMessage();
     	} else if (type.equals("card")) {
-    		return new CardMessage(reader.readObject().getInt("card"));
+    		return new CardMessage(object.getInt("card"));
     	} else if (type.equals("chat")) {
-    		return new ChatMessage(reader.readObject().getString("message"), reader.readObject().getString("username"));
+    		return new ChatMessage(object.getString("message"), object.getString("username"));
     	} else if (type.equals("complementHandCards")) {
     		// Need to build function
     	} else if (type.equals("connect")) {
-    		return new ConnectMessage(reader.readObject().getString("username"));
+    		return new ConnectMessage(object.getString("username"));
     	} else if (type.equals("draw")) {
     		return new DrawMessage();
     	} else if (type.equals("game")) {
-    		return new GameMessage(reader.readObject().getString("message"));
+    		return new GameMessage(object.getString("message"));
     	} else if (type.equals("invalid")) {
-    		return new InvalidMessage(reader.readObject().getString("message"));
+    		return new InvalidMessage(object.getString("message"));
     	} else if (type.equals("move")) {
-    		return new MoveMessage(reader.readObject().getString("username"), reader.readObject().getInt("from"), reader.readObject().getInt("to"));
+    		return new MoveMessage(object.getString("username"), object.getInt("from"), object.getInt("to"));
     	} else if (type.equals("opponentCards")) {
     		List<Integer> cards = new ArrayList<Integer>();
+    		JsonArray array = reader.readArray();
     		
-    		for (int i = 0; i < reader.readArray().size(); i++) {
-    			cards.add(reader.readArray().getInt(i));
+    		for (int i = 0; i < array.size(); i++) {
+    			cards.add(array.getInt(i));
     		}
     		
     		return new OpponentCards(cards);
     	} else if (type.equals("playerCards")) {
     		List<Integer> cards = new ArrayList<Integer>();
+    		JsonArray array = reader.readArray();
     		
-    		for (int i = 0; i < reader.readArray().size(); i++) {
-    			cards.add(reader.readArray().getInt(i));
+    		for (int i = 0; i < array.size(); i++) {
+    			cards.add(array.getInt(i));
     		}
     		
     		return new PlayerCards(cards);
