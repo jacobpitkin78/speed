@@ -295,8 +295,8 @@
         }
 
         //create websocket
-        var socket = new WebSocket("wss://cs3750-speed.azure-websites.com/game");
-        //var socket = new WebSocket("ws://localhost:8080/speed/game");
+        //var socket = new WebSocket("wss://cs3750-speed.azure-websites.com/speed/game");
+  		var socket = new WebSocket("ws://" + window.location.host + "/websocket/game");
 
         //receive server message
         socket.onmessage = function (event) {
