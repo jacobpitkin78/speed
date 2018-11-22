@@ -121,6 +121,7 @@
         <h4>Message Simulator</h4>
         <button class="btn btn-primary" id="startTest">Start</button>
         <button class="btn btn-primary" id="invalidTest">Invalid Move</button>
+        <button class="btn btn-primary" id="stuckTest">Stuck</button>
         <button class="btn btn-primary" id="opponentTest">Opponent Cards</button>
         <button class="btn btn-primary" id="middleTest">Middle Cards</button>
         <button class="btn btn-primary" id="playerTest">Player Cards</button>
@@ -219,29 +220,33 @@
             var message = JSON.parse(event);
             console.log(message.type);
             switch (message.type) {
-                case "start":
-                    enemyUser = message.player;
-                    updateMessage("Connected to " + enemyUser);
-                    $("#enemyName").text(enemyUser + "'s hand");
-                    break;
-                case "playerCards":
-                    showPlayerCards(message.cards);
-                    break;
-                case "middleCards":
-                    showMiddleCards(message.cards);
-                    break;
-                case "opponentCards":
-                    showOpponentCards(message.cards);
-                    break;
-                case "game":
-                    updateMessage(message.message);
-                    gameOver(message.message);
-                    break;
-                case "invalid":
-                    updateMessage(message.message);
-                    break;
-                default: console.log("No statements were hit!");
-            }
+            case "start":
+                enemyUser = message.player;
+                updateMessage("Connected to " + enemyUser);
+                $("#enemyName").text(enemyUser + "'s hand");
+                break;
+            case "playerCards":
+                showPlayerCards(message.cards);
+                break;
+            case "middleCards":
+                showMiddleCards(message.cards);
+                break;
+            case "opponentCards":
+                showOpponentCards(message.cards);
+                break;
+            case "game":
+                updateMessage(message.message);
+                gameOver(message.message);
+                break;
+            case "invalid":
+                updateMessage(message.message);
+                break;
+            case "stuck":
+            	updateMessage("Both players are stuck! Cards will be flipped automatically.");
+            	isStuck = true;
+            	break;
+            default: console.log("No statements were hit!");
+        }
             console.log(enemyUser);
         }
 
@@ -273,6 +278,10 @@
             var obj = '{"type": "invalid", "message": "That is an invalid move!"}';
             testMessages(obj);
         });
+        $("#stuckTest").click(function () {
+            var obj = '{"type": "stuck"}';
+            testMessages(obj);
+        });
 
         function randomCount() {
             return Math.floor(Math.random() * (5) + 1);
@@ -297,7 +306,7 @@
         //create websocket
         //var socket = new WebSocket("wss://cs3750-speed.azure-websites.com/speed/game");
   		var socket = new WebSocket("ws://" + window.location.host + "/websocket/game");
-
+		var isStuck = false;
         //receive server message
         socket.onmessage = function (event) {
             console.log(event.data);
@@ -324,6 +333,9 @@
                 case "invalid":
                     updateMessage(message.message);
                     break;
+                case "stuck":
+                	updateMessage("Both players are stuck! Cards will be flipped automatically.");
+                	isStuck = true;
                 default: console.log("No statements were hit!");
             }
         }
@@ -367,7 +379,10 @@
 
         //TODO show the middle cards
         function showMiddleCards(cards) {
-
+			if(isStuck){
+				isStuck = false;
+				updateMessage("The cards have flipped!");
+			}
             //left draw pile
             if (cards[0].card == "b") {
                 $("#draw0").attr("src", "img/red_back.png");
