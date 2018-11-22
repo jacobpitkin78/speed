@@ -1,0 +1,52 @@
+body {
+	background-color: #076324;
+}
+
+#enemyHand {
+	width: 40%;
+	margin-left: 25%;
+	margin-right: 25%;
+	transform: translateY(-40%);
+}
+
+#enemyHand div:not(#opponentDeck) {
+	margin-right: -120px;
+}
+
+#mainCards {
+	width: 50%;
+	margin-top: -40px;
+}
+
+
+
+.draw-deck{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 85%;	
+}
+
+#opponentDeck {
+	width: 82%;
+}
+
+#mainCards .draw-deck {
+	margin-right: 5%;
+}
+
+#enemyName {
+	position: absolute;
+	top: 60px;
+	left: 10px;
+}
+
+#playerCards{
+	margin-top: 5%;
+	width: 70%;
+}
+
+#playerCards .draw-deck{
+	margin-left: 5%;
+	width: %;
+}
