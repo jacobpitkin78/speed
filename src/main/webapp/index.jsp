@@ -336,7 +336,7 @@
                 case "stuck":
                 	updateMessage("Both players are stuck! Cards will be flipped automatically.");
                 	isStuck = true;
-                default: console.log("No statements were hit!");
+                default: console.log("Ack message or No statements were hit!");
             }
         }
 
