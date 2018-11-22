@@ -111,13 +111,17 @@ public class MessageFactory {
 	
 	public static String getMiddleCards(List<Integer> cards) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-		objBuilder.add("type", "middle");
+		objBuilder.add("type", "middleCards");
 		
 		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
+		
+		arrBuilder.add(Json.createObjectBuilder().add("card", "b"));
 		
 		for (int i : cards) {
 			arrBuilder.add(Json.createObjectBuilder().add("card", i));
 		}
+		
+		arrBuilder.add(Json.createObjectBuilder().add("card", "b"));
 		
 		objBuilder.add("cards", arrBuilder);
 		
@@ -130,7 +134,7 @@ public class MessageFactory {
 	
 	public static String getOpponentCards(List<Integer> cards) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-		objBuilder.add("type", "opponent");
+		objBuilder.add("type", "opponentCards");
 		objBuilder.add("cards", cards.size());
 		
 		return objBuilder.build().toString();
@@ -142,7 +146,7 @@ public class MessageFactory {
 	
 	public static String getPlayerCards(List<Integer> cards) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
-		objBuilder.add("type", "player");
+		objBuilder.add("type", "playerCards");
 		
 		JsonArrayBuilder arrBuilder = Json.createArrayBuilder();
 		
