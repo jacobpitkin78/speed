@@ -441,7 +441,7 @@
                 "card": source,
                 "to": destination
             }
-            socket.send(msg);
+            socket.send(JSON.stringify(msg));
         }
 
         //draw a card
@@ -449,18 +449,19 @@
             var msg = {
                 "type": "draw"
             }
-            socket.send(msg);
+            socket.send(JSON.stringify(msg));
         }
 
         //connect to server
         function connectToServer() {
 
             user = $("#userName").val();
-            var msg = {
+            var msg = 
+            	{
                 "type": "connect",
                 "username": user
-            }
-            socket.send(msg);
+            	}
+            socket.send(JSON.stringify(msg));
 
 
         }
