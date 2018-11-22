@@ -44,13 +44,13 @@ public class MessageFactory {
 	}
 	
 	public static String getMoveMessage(MoveMessage moveMessage) {
-		return getMoveMessage(moveMessage.getFrom(), moveMessage.getTo());
+		return getMoveMessage(moveMessage.getCard(), moveMessage.getTo());
 	}
 	
-	public static String getMoveMessage(int from, int to) {
+	public static String getMoveMessage(int card, int to) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "move");
-		objBuilder.add("from", from);
+		objBuilder.add("card", card);
 		objBuilder.add("to", to);
 		
 		return objBuilder.build().toString();
@@ -204,7 +204,7 @@ public class MessageFactory {
     	} else if (type.equals("invalid")) {
     		return new InvalidMessage(object.getString("message"));
     	} else if (type.equals("move")) {
-    		return new MoveMessage(object.getString("username"), object.getInt("from"), object.getInt("to"));
+    		return new MoveMessage(Integer.parseInt(object.getString("card")), Integer.parseInt(object.getString("to")));
     	} else if (type.equals("opponentCards")) {
     		List<Integer> cards = new ArrayList<Integer>();
     		JsonArray array = reader.readArray();

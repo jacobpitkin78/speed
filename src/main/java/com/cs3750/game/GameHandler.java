@@ -78,7 +78,7 @@ public class GameHandler {
 			} else {
 				if (username.equals(game.getDealer().getPlayerAName())) {
 					Player player = game.getDealer().getPlayerA();
-					Card from = new Card(Ranking.values()[((MoveMessage) msg).getFrom() - 1]);
+					Card from = new Card(Ranking.values()[((MoveMessage) msg).getCard() - 1]);
 					boolean[] results = game.getDealer().playerRequestToCoverCard(player, from, ((MoveMessage) msg).getTo());
 					
 					if (username.equals(dealer.getPlayerAName())) {
