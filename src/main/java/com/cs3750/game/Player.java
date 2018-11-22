@@ -53,8 +53,8 @@ public class Player {
 
     public void flipCardToOnHand() {
 
-        while (getCardsOnSide().size() <= 0
-                || getCardsOnHand().size() >= ON_HAND_LIMIT) {
+        while (getCardsOnSide().size() > 0
+                || getCardsOnHand().size() < ON_HAND_LIMIT) {
 
             this.cardsOnHand.add(getCardsOnSide().get(0));
             this.cardsOnSide.remove(0);

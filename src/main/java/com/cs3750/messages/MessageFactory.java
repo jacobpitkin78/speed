@@ -11,11 +11,18 @@ import javax.json.JsonReader;
 
 public class MessageFactory {
 	
+	public static String getAckMessage() {
+		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+		objBuilder.add("type", "ack");
+		
+		return objBuilder.build().toString();
+	}
+	
 	public String getConnectMessage(ConnectMessage connectMessage) {
 		return getConnectMessage(connectMessage.getUsername());
 	}
 	
-	public String getConnectMessage(String username) {
+	public static String getConnectMessage(String username) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "connect");
 		objBuilder.add("username", username);
@@ -146,6 +153,10 @@ public class MessageFactory {
 		return objBuilder.build().toString();
 	}
 	
+	public static String getResultsMessage() {
+		return null;
+	}
+	
 	public static String getStartMessage(StartMessage startMessage) {
 		return getStartMessage(startMessage.getUsername());
 	}
@@ -154,6 +165,13 @@ public class MessageFactory {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "start");
 		objBuilder.add("username", username);
+		
+		return objBuilder.build().toString();
+	}
+	
+	public static String getStuckMessage() {
+		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
+		objBuilder.add("type", "stuck");
 		
 		return objBuilder.build().toString();
 	}

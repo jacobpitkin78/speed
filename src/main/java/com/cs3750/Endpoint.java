@@ -52,7 +52,7 @@ public class Endpoint {
         Message returnMessage = game.messageIn(MessageFactory.parse(message));
         try {
         	if (returnMessage instanceof AckMessage) {
-        		// implement ack message in MessageFactory
+        		session.getBasicRemote().sendText(MessageFactory.getAckMessage());
             } else if (returnMessage instanceof ChatMessage) {
             	session.getBasicRemote().sendText(MessageFactory.getChatMessage((ChatMessage)returnMessage));
             } else if (returnMessage instanceof GameMessage) {
@@ -60,18 +60,41 @@ public class Endpoint {
             } else if (returnMessage instanceof InvalidMessage) {
             	session.getBasicRemote().sendText(MessageFactory.getInvalidMessage((InvalidMessage)returnMessage));
             } else if (returnMessage instanceof ResultsMessage) {
-            	// implement results message in MessageFactory
+            	ResultsMessage results = (ResultsMessage)returnMessage;
+            	
+            	if (results.isWin()) {
+            		session.getBasicRemote().sendText("Contratulations, you won!");
+            		
+            		if (connections.indexOf(session) == 0) {
+            			connections.get(1).getBasicRemote().sendText("You lost!");
+            		} else {
+            			connections.get(0).getBasicRemote().sendText("You lost!");
+            		}
+            	} else if (results.isStuck()) {
+            		connections.get(0).getBasicRemote().sendText(MessageFactory.getStuckMessage());
+            		connections.get(1).getBasicRemote().sendText(MessageFactory.getStuckMessage());
+            		
+            		long start = System.currentTimeMillis();
+            		
+            		while (3000 > System.currentTimeMillis() - start) {
+            			// waiting for 3 seconds to send the middles
+            		}
+            		
+            		connections.get(0).getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
+            		connections.get(0).getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
+            	} else if (results.isMoved()) {
+            		connections.get(0).getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
+            		connections.get(1).getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
+            		connections.get(0).getBasicRemote().sendText(MessageFactory.getPlayerCards(results.getPlayerACards()));
+            		connections.get(1).getBasicRemote().sendText(MessageFactory.getPlayerCards(results.getPlayerBCards()));
+            		connections.get(0).getBasicRemote().sendText(MessageFactory.getOpponentCards(results.getPlayerBCards()));
+            		connections.get(1).getBasicRemote().sendText(MessageFactory.getOpponentCards(results.getPlayerACards()));
+            	}
             } else if (returnMessage instanceof StartMessage) {
             	session.getBasicRemote().sendText(MessageFactory.getStartMessage((StartMessage)returnMessage));
             }
         } catch (IOException e) {
         	e.printStackTrace();
-        }
-        
-        try {
-            session.getBasicRemote().sendText("Hello Client " + session.getId() + "!");
-        } catch (IOException e) {
-            e.printStackTrace();
         }
     }
     
