@@ -1,19 +1,9 @@
 body {
-    background-color: #076324;
-    margin: 0;
-    overflow-y: hidden;
-    overflow-x: auto;
-    min-width: 1320px;
-}
-
-#enemyHand div img, #mainCards div img, #playerCards div img {
-    max-width: 130px;
-    padding: 2px;
+	background-color: #076324;
 }
 
 #enemyHand {
-    width: 40%;
-    max-width: 700px;
+	width: 40%;
 	margin-left: 25%;
 	margin-right: 25%;
 	transform: translateY(-40%);
@@ -24,14 +14,11 @@ body {
 }
 
 #mainCards {
-    max-width: 700px;
 	width: 50%;
-	margin-top: 0px;
+	margin-top: -40px;
 }
 
-.container{
-    max-width: 700px;
-}
+
 
 .draw-deck{
 	position: absolute;
@@ -51,44 +38,15 @@ body {
 #enemyName {
 	position: absolute;
 	top: 60px;
-    left: 10px;
-    color: white;
-}
-
-#playerName {
-    position: absolute;
-	top: 550px;
-    left: 10px;
-    color: white;
+	left: 10px;
 }
 
 #playerCards{
-    max-width: 1000px;
 	margin-top: 5%;
-	width: 75%;
+	width: 70%;
 }
 
 #playerCards .draw-deck{
 	margin-left: 5%;
+	width: %;
 }
-  
-  .wrapper {
-    position: relative;
-    min-height: 100vh;
-  }
-  
-  [class|="confetti"] {
-    position: absolute;
-  }
-  
-  .red {
-    background-color: #E94A3F;
-  }
-  
-  .yellow {
-    background-color: #FAA040;
-  }
-  
-  .blue {
-    background-color: #5FC9F5;
-  }
