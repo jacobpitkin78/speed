@@ -210,7 +210,8 @@
 
     <script type="text/javascript">
         var enemyUser = "";
-        var user;
+        var user = "";
+        var hasMoved = false;
         /////////////////////////////////////
         //////// Message Testing////////////
 
@@ -336,7 +337,10 @@
                 case "stuck":
                 	updateMessage("Both players are stuck! Cards will be flipped automatically.");
                 	isStuck = true;
-                default: console.log("Ack message or No statements were hit!");
+                case "ack":
+                	console.log("ack received");
+                	break;
+                default: console.log("No statements were hit!");
             }
         }
 
@@ -439,8 +443,10 @@
             var msg = {
                 "type": "move",
                 "card": source,
-                "to": destination
+                "to": destination,
+                "username": user
             }
+            console.log("Sending: " + JSON.stringify(msg));
             socket.send(JSON.stringify(msg));
         }
 
