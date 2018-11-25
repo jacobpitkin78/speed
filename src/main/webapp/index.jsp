@@ -439,7 +439,8 @@
             var msg = {
                 "type": "move",
                 "card": source,
-                "to": destination
+                "to": destination,
+                "username": user
             }
             socket.send(JSON.stringify(msg));
         }
@@ -447,7 +448,8 @@
         //draw a card
         function draw() {
             var msg = {
-                "type": "draw"
+                "type": "draw",
+                "username": user
             }
             socket.send(JSON.stringify(msg));
         }

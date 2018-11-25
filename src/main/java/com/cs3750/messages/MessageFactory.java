@@ -170,7 +170,7 @@ public class MessageFactory {
 	public static String getStartMessage(String username) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "start");
-		objBuilder.add("username", username);
+		objBuilder.add("player", username);
 		
 		return objBuilder.build().toString();
 	}
