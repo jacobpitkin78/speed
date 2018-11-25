@@ -18,7 +18,7 @@ public class MoveMessage extends Message {
 	}
 	
 	public MoveMessage(String username, Integer card, Integer to) {
-		super("move");
+		super(username, "move");
 		this.card = card;
 		this.to = to;
 	}

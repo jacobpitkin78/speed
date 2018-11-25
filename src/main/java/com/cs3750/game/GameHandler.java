@@ -46,7 +46,7 @@ public class GameHandler {
 				game = new GameHandler();
 			} 
 			
-			if (game.getDealer().getPlayerAName().equals("")) {
+			if (game.getDealer().getPlayerAName().equals("") || game.getDealer().getPlayerAName().equals(null)) {
 				game.getDealer().setPlayerAName(((ConnectMessage) msg).getUsername());
 				
 				return new AckMessage();
@@ -86,15 +86,19 @@ public class GameHandler {
 						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerB().getCardsOnHand()),
 								dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size());
-					} else if (username.equals(dealer.getPlayerBName())) {
-						
-						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
+					}
+				}else if (username.equals(dealer.getPlayerBName())) {
+					Player player = game.getDealer().getPlayerA();
+					Card from = new Card(Ranking.values()[((MoveMessage) msg).getCard() - 1]);
+					boolean[] results = game.getDealer().playerRequestToCoverCard(player, from, ((MoveMessage) msg).getTo());
+					
+					return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerB().getCardsOnHand()), cardIntConverter(dealer.getPlayerA().getCardsOnHand()),
 								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size());
 					}
 				}
 			}
-		}
+		
 		
 		if (msg instanceof ComplementHandCardsMessage) {
 			

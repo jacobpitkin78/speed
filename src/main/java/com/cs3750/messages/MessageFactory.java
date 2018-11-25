@@ -3,7 +3,7 @@ package com.cs3750.messages;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-
+import javax.json.*;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -204,7 +204,7 @@ public class MessageFactory {
     	} else if (type.equals("invalid")) {
     		return new InvalidMessage(object.getString("message"));
     	} else if (type.equals("move")) {
-    		return new MoveMessage(Integer.parseInt(object.getString("card")), Integer.parseInt(object.getString("to")));
+    		return new MoveMessage(object.getString("username"), Integer.parseInt(object.getString("card")), Integer.parseInt(object.getString("to")));
     	} else if (type.equals("opponentCards")) {
     		List<Integer> cards = new ArrayList<Integer>();
     		JsonArray array = reader.readArray();
