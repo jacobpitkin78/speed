@@ -438,7 +438,8 @@
         //draw a card
         function draw() {
             var msg = {
-                "type": "draw"
+                "type": "draw",
+                "username": user
             }
             socket.send(JSON.stringify(msg));
         }
