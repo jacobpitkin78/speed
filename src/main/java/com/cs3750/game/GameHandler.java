@@ -76,11 +76,17 @@ public class GameHandler {
 				
 				return new InvalidMessage("No game started");
 			} else {
+				System.out.println(game.getDealer().getPlayerAName());
+				System.out.println(game.getDealer().getPlayerBName());
+				System.out.println(username);
 				if (username.equals(game.getDealer().getPlayerAName())) {
 					Player player = game.getDealer().getPlayerA();
+					System.out.println("before card");
 					Card from = new Card(Ranking.values()[((MoveMessage) msg).getCard() - 1]);
+					System.out.println("after card");
+					System.out.println(from);
+					System.out.println(((MoveMessage) msg).getTo());
 					boolean[] results = game.getDealer().playerRequestToCoverCard(player, from, ((MoveMessage) msg).getTo());
-					
 					if (username.equals(dealer.getPlayerAName())) {
 						
 						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),

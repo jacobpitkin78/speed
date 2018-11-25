@@ -152,7 +152,7 @@ public class Dealer {
         	}
         }
         
-        results[3] = solveStuck();
+        results[2] = solveStuck();
 
         return results;
     }

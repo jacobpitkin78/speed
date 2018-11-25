@@ -9,25 +9,30 @@ public class MoveMessage extends Message {
 				+ "]";
 	}
 
-	private Integer card;
-	private Integer to;
+	private int card;
+	private int to;
 	private String username;
 	
-	public MoveMessage(Integer card, Integer to) {
+	public MoveMessage(int card, int to) {
 		this(null, card, to);
 	}
 	
-	public MoveMessage(String username, Integer card, Integer to) {
+	public MoveMessage(String username, int card, int to) {
 		super("move");
 		this.card = card;
 		this.to = to;
+		this.username = username;
 	}
 	
-	public Integer getCard() {
+	public int getCard() {
 		return card;
 	}
 	
-	public Integer getTo() {
+	public int getTo() {
 		return to;
+	}
+	
+	public String getUsername() {
+		return username;
 	}
 }
