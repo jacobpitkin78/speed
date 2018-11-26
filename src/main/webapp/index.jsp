@@ -189,14 +189,21 @@
 
         function drag(event) {
             event.dataTransfer.setData("index", event.target.id);
+            event.dataTransfer.setData("card", event.target.attributes.card.nodeValue);
 
         }
 
         function drop(event) {
             event.preventDefault();
             var data = event.dataTransfer.getData("index");
-            var sourceIndex = data.replace("playerCard", "");
-            var destinationIndex = event.target.id.replace("play", "");
+            console.log(data);
+            console.log(event.dataTransfer.getData("card"));
+            console.log(event);
+            //var sourceIndex = data.replace("playerCard", "");
+            //var destinationIndex = event.target.id.replace("play", "");
+            var sourceIndex = event.dataTransfer.getData("card");
+            var destinationIndex = event.target.attributes.card.nodeValue;
+            console.log("source: " + sourceIndex + "\ndestination: " + destinationIndex);
             move(sourceIndex, destinationIndex);
             $("#" + data).attr("src", "");
         }
@@ -371,6 +378,7 @@
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].card != 0) {
                     $("#playerCard" + i).attr("src", "img/" + getCard(cards[i].card) + getSuit() + ".png");
+                    $("#playerCard" + i).attr("card", cards[i].card);
                 } else { //if no card is held
                     $("#playerCard" + i).attr("src", "");
                 }
@@ -399,9 +407,11 @@
 
             //left play stack
             $("#play0").attr("src", "img/" + getCard(cards[1].card) + getSuit() + ".png");
+            $("#play0").attr("card", cards[1].card);
 
             //right play stack
             $("#play1").attr("src", "img/" + getCard(cards[2].card) + getSuit() + ".png");
+            $("#play1").attr("card", cards[2].card);
 
         }
 
