@@ -110,7 +110,7 @@ public class Endpoint {
             		}
             		
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
-            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
+            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
             	} else if (results.isMoved()) {
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
             		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));

@@ -191,7 +191,8 @@ public class MessageFactory {
     	if (type.equals("ack")) {
     		return new AckMessage();
     	} else if (type.equals("card")) {
-    		return new CardMessage(object.getInt("card"));
+//    		return new CardMessage(object.getInt("card"));
+    		return new CardMessage(Integer.parseInt(object.getString("card")));
     	} else if (type.equals("chat")) {
     		return new ChatMessage(object.getString("message"), object.getString("username"));
     	} else if (type.equals("complementHandCards")) {
