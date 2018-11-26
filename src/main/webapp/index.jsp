@@ -374,6 +374,10 @@
 
         //show the player's cards  		
         function showPlayerCards(cards) {
+        	
+        	for (i = 0; i < 5; i++) {
+        		$("#playerCard" + i).attr("src", "");
+        	}
 
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].card != 0) {
