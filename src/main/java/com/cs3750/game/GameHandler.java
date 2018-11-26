@@ -76,16 +76,26 @@ public class GameHandler {
 				
 				return new InvalidMessage("No game started");
 			} else {
-				System.out.println(game.getDealer().getPlayerAName());
-				System.out.println(game.getDealer().getPlayerBName());
-				System.out.println(username);
 				if (username.equals(game.getDealer().getPlayerAName())) {
 					Player player = game.getDealer().getPlayerA();
-					System.out.println("before card");
 					Card from = new Card(Ranking.values()[((MoveMessage) msg).getCard() - 1]);
-					System.out.println("after card");
-					System.out.println(from);
-					System.out.println(((MoveMessage) msg).getTo());
+					System.out.println("from card: " + ((MoveMessage) msg).getCard());
+					System.out.println("to card: " + ((MoveMessage) msg).getTo());
+					boolean[] results = game.getDealer().playerRequestToCoverCard(player, from, ((MoveMessage) msg).getTo());
+					if (username.equals(dealer.getPlayerAName())) {
+						
+						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
+								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerB().getCardsOnHand()),
+								dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size());
+					} else if (username.equals(dealer.getPlayerBName())) {
+						
+						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
+								cardIntConverter(dealer.getPlayerB().getCardsOnHand()), cardIntConverter(dealer.getPlayerA().getCardsOnHand()),
+								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size());
+					}
+				} else if (username.equals(game.getDealer().getPlayerBName())) {
+					Player player = game.getDealer().getPlayerB();
+					Card from = new Card(Ranking.values()[((MoveMessage) msg).getCard() - 1]);
 					boolean[] results = game.getDealer().playerRequestToCoverCard(player, from, ((MoveMessage) msg).getTo());
 					if (username.equals(dealer.getPlayerAName())) {
 						

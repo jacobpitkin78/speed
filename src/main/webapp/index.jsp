@@ -183,34 +183,11 @@
     </script>
 
     <script type="text/javascript">
-        function allowDrop(event) {
-            event.preventDefault();
-        }
-
-        function drag(event) {
-            event.dataTransfer.setData("index", event.target.id);
-
-        }
-
-        function drop(event) {
-            event.preventDefault();
-            var data = event.dataTransfer.getData("index");
-            var sourceIndex = data.replace("playerCard", "");
-            var destinationIndex = event.target.id.replace("play", "");
-            move(sourceIndex, destinationIndex);
-            $("#" + data).attr("src", "");
-        }
-
-        //prevent dragging
-        function preventDrag(event) {
-            event.preventDefault();
-        }
-
-    </script>
-
-    <script type="text/javascript">
         var enemyUser = "";
-        var user;
+        var user = "";
+        var hasMoved = false;
+        var imgSource = "";
+        var imgName = "";
         /////////////////////////////////////
         //////// Message Testing////////////
 
@@ -332,12 +309,23 @@
                     break;
                 case "invalid":
                     updateMessage(message.message);
+                    revertMove();
                     break;
                 case "stuck":
                 	updateMessage("Both players are stuck! Cards will be flipped automatically.");
                 	isStuck = true;
-                default: console.log("Ack message or No statements were hit!");
+                case "ack":
+                	console.log("ack received");
+                	break;
+                default: console.log("No statements were hit!");
             }
+        }
+        
+        //revert move if invalid
+        function revertMove(){
+        	$("#" + imgName).attr("src", imgSource);
+        	imgSource = "";
+        	imgName = "";
         }
 
         function getCard(val) {
@@ -358,6 +346,25 @@
             }
             return card;
         }
+        
+        function convertCardToInt(val) {
+            var card = val;
+            switch (val) {
+                case "A":
+                    card = 1;
+                    break;
+                case "J":
+                    card = 11;
+                    break;
+                case "Q":
+                    card = 12;
+                    break;
+                case "K":
+                    card = 13;
+                    break;
+            }
+            return card;
+        }
 
         //select random card suit
         function getSuit() {
@@ -371,6 +378,7 @@
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].card != 0) {
                     $("#playerCard" + i).attr("src", "img/" + getCard(cards[i].card) + getSuit() + ".png");
+                    $("#playerCard" + i).attr("card", cards[i].card);
                 } else { //if no card is held
                     $("#playerCard" + i).attr("src", "");
                 }
@@ -399,9 +407,11 @@
 
             //left play stack
             $("#play0").attr("src", "img/" + getCard(cards[1].card) + getSuit() + ".png");
+            $("#play0").attr("card", cards[1].card);
 
             //right play stack
             $("#play1").attr("src", "img/" + getCard(cards[2].card) + getSuit() + ".png");
+            $("#play1").attr("card", cards[2].card);
 
         }
 
@@ -436,12 +446,14 @@
 
         //move the player card to the specified destination
         function move(source, destination) {
+        	hasMoved = true;
             var msg = {
                 "type": "move",
                 "card": source,
                 "to": destination,
                 "username": user
             }
+            console.log("Sending: " + JSON.stringify(msg));
             socket.send(JSON.stringify(msg));
         }
 
@@ -488,6 +500,40 @@
             } else {
                 $("#userError").text("Please enter your name.");
             }
+        }
+        
+        function allowDrop(event) {
+            event.preventDefault();
+        }
+
+        function drag(event) {
+            event.dataTransfer.setData("index", event.target.id);
+
+        }
+
+        function drop(event) {
+            event.preventDefault();
+            var data = event.dataTransfer.getData("index");
+            //var sourceIndex = data.replace("playerCard", "");
+            var cardValue = $("#" + data).attr("src");
+            cardValue = cardValue.replace("img/","");
+            cardValue = cardValue.replace(".png", "");
+            cardValue = cardValue.replace("D", "");
+            cardValue = cardValue.replace("S", "");
+            cardValue = cardValue.replace("C", "");
+            cardValue = cardValue.replace("H", "");
+            cardValue = convertCardToInt(cardValue);
+            //var destinationIndex = event.target.id.replace("play", "");
+            var destinationIndex = event.target.attributes.card.nodeValue;
+            move(cardValue, destinationIndex);
+            imgSource = $("#" + data).attr("src");
+            imgName = data;
+            $("#" + data).attr("src", "");
+        }
+
+        //prevent dragging
+        function preventDrag(event) {
+            event.preventDefault();
         }
 
         //confetti

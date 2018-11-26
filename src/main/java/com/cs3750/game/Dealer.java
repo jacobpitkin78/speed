@@ -140,6 +140,7 @@ public class Dealer {
     	// results[2]: if the middle cards need to be replaced
         boolean[] results = new boolean[3];
         Card target =  new Card(Ranking.values()[value - 1]);
+        
         if (middleCur.contains(target)) {
         	if (cardFromPlayer.isNeighbor(target)) {
         		player.removeHandCard(cardFromPlayer);
@@ -152,7 +153,7 @@ public class Dealer {
         	}
         }
         
-        results[3] = solveStuck();
+        results[2] = solveStuck();
 
         return results;
     }
