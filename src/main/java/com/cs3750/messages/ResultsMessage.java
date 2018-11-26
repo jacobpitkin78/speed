@@ -17,8 +17,10 @@ public class ResultsMessage extends Message{
 	public ResultsMessage(String username, boolean[] results, List<Integer> middlesCur, List<Integer> middlesOld, 
 			List<Integer> playerACards, List<Integer> playerBCards, Integer onSideA, Integer onSideB) {
 		super(username);
-		this.isWin = results[0];
-		this.isMoved = results[1];
+//		this.isWin = results[0];
+//		this.isMoved = results[1];
+		this.isMoved = results[0];
+		this.isWin = results[1];
 		this.isStuck = results[2];
 		this.middlesOld = middlesOld;
 		this.middlesCur = middlesCur;
