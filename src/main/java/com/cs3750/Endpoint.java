@@ -67,12 +67,15 @@ public class Endpoint {
         	game = new GameHandler();
         }
         
+        Client currentClient = null;
+        
         if (incoming instanceof ConnectMessage) {
         	ConnectMessage conMessage = (ConnectMessage) incoming;
         	
         	for (Client c : connections) {
         		if (c.getSession().equals(session)) {
         			c.setUsername(conMessage.getUsername());
+        			currentClient = c;
         			System.out.println(conMessage.getUsername());
         		}
         	}
@@ -97,6 +100,16 @@ public class Endpoint {
         		session.getBasicRemote().sendText(MessageFactory.getAckMessage());
             } else if (returnMessage instanceof ChatMessage) {
             	session.getBasicRemote().sendText(MessageFactory.getChatMessage((ChatMessage)returnMessage));
+            } else if (returnMessage instanceof ComplementHandCardsMessage) {
+            	ComplementHandCardsMessage comp = (ComplementHandCardsMessage) returnMessage;
+            	
+            	session.getBasicRemote().sendText(MessageFactory.getPlayerCards(comp.getPlayerOnHandCards()));
+            	
+            	for (Client c : connections) {
+            		if (!c.getSession().equals(session)) {
+            			c.getSession().getBasicRemote().sendText(MessageFactory.getOpponentCards(comp.getPlayerOnHandCards()));
+            		}
+            	}
             } else if (returnMessage instanceof GameMessage) {
             	session.getBasicRemote().sendText(MessageFactory.getGameMessage((GameMessage)returnMessage));
             } else if (returnMessage instanceof InvalidMessage) {
@@ -107,12 +120,14 @@ public class Endpoint {
             	if (results.isWin()) {
             		session.getBasicRemote().sendText("Contratulations, you won!");
             		
-            		if (connections.indexOf(session) == 0) {
+            		if (connections.indexOf(currentClient) == 0) {
             			connections.get(1).getSession().getBasicRemote().sendText("You lost!");
             		} else {
             			connections.get(0).getSession().getBasicRemote().sendText("You lost!");
             		}
             	} else if (results.isStuck()) {
+            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddles()));
+            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddles()));
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getStuckMessage());
             		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getStuckMessage());
             		
