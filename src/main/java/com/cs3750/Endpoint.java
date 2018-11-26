@@ -131,6 +131,8 @@ public class Endpoint {
             		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getPlayerCards(results.getPlayerBCards()));
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getOpponentCards(results.getPlayerBCards()));
             		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getOpponentCards(results.getPlayerACards()));
+            	} else if (!results.isMoved()) {
+            		session.getBasicRemote().sendText(MessageFactory.getInvalidMessage("Invalid move"));
             	}
             } else if (returnMessage instanceof ConnectMessage) {
             	session.getBasicRemote().sendText(MessageFactory.getConnectMessage((ConnectMessage)returnMessage));

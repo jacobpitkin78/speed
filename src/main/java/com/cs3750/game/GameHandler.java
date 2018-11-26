@@ -111,8 +111,6 @@ public class GameHandler {
 		}
 		
 		if (msg instanceof ComplementHandCardsMessage) {
-			System.out.println("inside complement thing");
-			
 			if (!started) {
 				return new InvalidMessage("No game started.");
 			}
