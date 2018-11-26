@@ -351,16 +351,16 @@
             var card = val;
             switch (val) {
                 case "A":
-                    card = 1;
+                    card = "1";
                     break;
                 case "J":
-                    card = 11;
+                    card = "11";
                     break;
                 case "Q":
-                    card = 12;
+                    card = "12";
                     break;
                 case "K":
-                    card = 13;
+                    card = "13";
                     break;
             }
             return card;
