@@ -378,6 +378,7 @@
             for (var i = 0; i < cards.length; i++) {
                 if (cards[i].card != 0) {
                     $("#playerCard" + i).attr("src", "img/" + getCard(cards[i].card) + getSuit() + ".png");
+                    $("#playerCard" + i).attr("card", cards[i].card);
                 } else { //if no card is held
                     $("#playerCard" + i).attr("src", "");
                 }
@@ -406,9 +407,11 @@
 
             //left play stack
             $("#play0").attr("src", "img/" + getCard(cards[1].card) + getSuit() + ".png");
+            $("#play0").attr("card", cards[1].card);
 
             //right play stack
             $("#play1").attr("src", "img/" + getCard(cards[2].card) + getSuit() + ".png");
+            $("#play1").attr("card", cards[2].card);
 
         }
 
@@ -520,7 +523,8 @@
             cardValue = cardValue.replace("C", "");
             cardValue = cardValue.replace("H", "");
             cardValue = convertCardToInt(cardValue);
-            var destinationIndex = event.target.id.replace("play", "");
+            //var destinationIndex = event.target.id.replace("play", "");
+            var destinationIndex = event.target.attributes.card.nodeValue;
             move(cardValue, destinationIndex);
             imgSource = $("#" + data).attr("src");
             imgName = data;
