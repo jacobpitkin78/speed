@@ -3,7 +3,7 @@ package com.cs3750.messages;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
-import javax.json.*;
+
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
@@ -44,14 +44,15 @@ public class MessageFactory {
 	}
 	
 	public static String getMoveMessage(MoveMessage moveMessage) {
-		return getMoveMessage(moveMessage.getCard(), moveMessage.getTo());
+		return getMoveMessage(moveMessage.getUsername(), moveMessage.getCard(), moveMessage.getTo());
 	}
 	
-	public static String getMoveMessage(int card, int to) {
+	public static String getMoveMessage(String username, int card, int to) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "move");
 		objBuilder.add("card", card);
 		objBuilder.add("to", to);
+		objBuilder.add("username", username);
 		
 		return objBuilder.build().toString();
 	}
@@ -170,7 +171,7 @@ public class MessageFactory {
 	public static String getStartMessage(String username) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "start");
-		objBuilder.add("username", username);
+		objBuilder.add("player", username);
 		
 		return objBuilder.build().toString();
 	}
@@ -205,6 +206,7 @@ public class MessageFactory {
     		return new InvalidMessage(object.getString("message"));
     	} else if (type.equals("move")) {
     		return new MoveMessage(object.getString("username"), Integer.parseInt(object.getString("card")), Integer.parseInt(object.getString("to")));
+//    		return new MoveMessage(object.getString("username"), object.getInt("card"), object.getInt("to"));
     	} else if (type.equals("opponentCards")) {
     		List<Integer> cards = new ArrayList<Integer>();
     		JsonArray array = reader.readArray();

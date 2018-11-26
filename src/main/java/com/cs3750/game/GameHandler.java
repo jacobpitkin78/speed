@@ -46,7 +46,7 @@ public class GameHandler {
 				game = new GameHandler();
 			} 
 			
-			if (game.getDealer().getPlayerAName().equals("") || game.getDealer().getPlayerAName().equals(null)) {
+			if (game.getDealer().getPlayerAName().equals("")) {
 				game.getDealer().setPlayerAName(((ConnectMessage) msg).getUsername());
 				
 				return new AckMessage();
@@ -78,28 +78,43 @@ public class GameHandler {
 			} else {
 				if (username.equals(game.getDealer().getPlayerAName())) {
 					Player player = game.getDealer().getPlayerA();
-					System.out.println(((MoveMessage) msg).getCard()-1);
 					Card from = new Card(Ranking.values()[((MoveMessage) msg).getCard() - 1]);
+					System.out.println("from card: " + ((MoveMessage) msg).getCard());
+					System.out.println("to card: " + ((MoveMessage) msg).getTo());
 					boolean[] results = game.getDealer().playerRequestToCoverCard(player, from, ((MoveMessage) msg).getTo());
-					
 					if (username.equals(dealer.getPlayerAName())) {
 						
 						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerB().getCardsOnHand()),
 								dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size());
+					} else if (username.equals(dealer.getPlayerBName())) {
+						
+						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
+								cardIntConverter(dealer.getPlayerB().getCardsOnHand()), cardIntConverter(dealer.getPlayerA().getCardsOnHand()),
+								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size());
 					}
-				}else if (username.equals(dealer.getPlayerBName())) {
-					Player player = game.getDealer().getPlayerA();
+				} else if (username.equals(game.getDealer().getPlayerBName())) {
+					Player player = game.getDealer().getPlayerB();
+					System.out.println("before card");
 					Card from = new Card(Ranking.values()[((MoveMessage) msg).getCard() - 1]);
+					System.out.println("after card");
+					System.out.println(from);
+					System.out.println(((MoveMessage) msg).getTo());
 					boolean[] results = game.getDealer().playerRequestToCoverCard(player, from, ((MoveMessage) msg).getTo());
-					
-					return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
+					if (username.equals(dealer.getPlayerAName())) {
+						
+						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
+								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerB().getCardsOnHand()),
+								dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size());
+					} else if (username.equals(dealer.getPlayerBName())) {
+						
+						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerB().getCardsOnHand()), cardIntConverter(dealer.getPlayerA().getCardsOnHand()),
 								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size());
 					}
 				}
 			}
-		
+		}
 		
 		if (msg instanceof ComplementHandCardsMessage) {
 			

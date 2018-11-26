@@ -140,8 +140,15 @@ public class Dealer {
     	// results[2]: if the middle cards need to be replaced
         boolean[] results = new boolean[3];
         Card target =  new Card(Ranking.values()[value - 1]);
+        System.out.println("from value: " + cardFromPlayer);
+        System.out.println("target value: " + target);
+        for (Card c : middleCur) {
+        	System.out.println("Middle: " + c);
+        }
         if (middleCur.contains(target)) {
+        	System.out.println("middleCur has target");
         	if (cardFromPlayer.isNeighbor(target)) {
+        		System.out.println("cards are neighbors");
         		player.removeHandCard(cardFromPlayer);
         		middleCur.remove(target);
         		middleCur.add(cardFromPlayer);
@@ -152,7 +159,7 @@ public class Dealer {
         	}
         }
         
-        results[3] = solveStuck();
+        results[2] = solveStuck();
 
         return results;
     }

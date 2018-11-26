@@ -11,7 +11,6 @@ public class MoveMessage extends Message {
 
 	private Integer card;
 	private Integer to;
-	private String username;
 	
 	public MoveMessage(Integer card, Integer to) {
 		this(null, card, to);
