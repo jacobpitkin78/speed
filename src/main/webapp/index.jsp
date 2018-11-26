@@ -346,6 +346,25 @@
             }
             return card;
         }
+        
+        function convertCardToInt(val) {
+            var card = val;
+            switch (val) {
+                case "A":
+                    card = 1;
+                    break;
+                case "J":
+                    card = 11;
+                    break;
+                case "Q":
+                    card = 12;
+                    break;
+                case "K":
+                    card = 13;
+                    break;
+            }
+            return card;
+        }
 
         //select random card suit
         function getSuit() {
@@ -492,9 +511,17 @@
         function drop(event) {
             event.preventDefault();
             var data = event.dataTransfer.getData("index");
-            var sourceIndex = data.replace("playerCard", "");
+            //var sourceIndex = data.replace("playerCard", "");
+            var cardValue = $("#" + data).attr("src");
+            cardValue = cardValue.replace("img/","");
+            cardValue = cardValue.replace(".png", "");
+            cardValue = cardValue.replace("D", "");
+            cardValue = cardValue.replace("S", "");
+            cardValue = cardValue.replace("C", "");
+            cardValue = cardValue.replace("H", "");
+            cardValue = convertCardToInt(cardValue);
             var destinationIndex = event.target.id.replace("play", "");
-            move(sourceIndex, destinationIndex);
+            move(cardValue, destinationIndex);
             imgSource = $("#" + data).attr("src");
             imgName = data;
             $("#" + data).attr("src", "");
