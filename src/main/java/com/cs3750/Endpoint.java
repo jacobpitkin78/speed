@@ -29,9 +29,18 @@ public class Endpoint {
     }
     
     @OnClose
-    public void onClose(Session session) {
+    public synchronized void onClose(Session session) {
         System.out.println("onClose::" +  session.getId());
-        connections.remove(session);
+        
+        int index = 0;
+        
+        for (index = 0; index < connections.size(); index++) {
+        	if (connections.get(index).getSession().equals(session)) {
+        		break;
+        	}
+        }
+        
+        connections.remove(index);
         
         if (!connections.isEmpty()) {
         	try {
@@ -39,6 +48,10 @@ public class Endpoint {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+        } else {
+        	System.out.println("connections is empty");
+        	game = null;
+        	connections.clear();
         }
     }
     
@@ -172,6 +185,10 @@ public class Endpoint {
     @OnError
     public void onError(Throwable t) {
         System.out.println("onError::" + t.getMessage());
+        
+        for (Client c : connections) {
+        	
+        }
     }
     
     private class Client {
