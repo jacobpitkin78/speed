@@ -78,7 +78,20 @@ public class Endpoint {
         	}
         }
         
+        if (incoming instanceof DrawMessage) {
+        	String username = null;
+        	
+        	for (Client c : connections) {
+        		if (c.getSession().equals(session)) {
+        			username = c.getUsername();
+        		}
+        	}
+        	
+        	incoming = new ComplementHandCardsMessage(username);
+        }
+        
         Message returnMessage = game.messageIn(incoming);
+        
         try {
         	if (returnMessage instanceof AckMessage) {
         		session.getBasicRemote().sendText(MessageFactory.getAckMessage());
