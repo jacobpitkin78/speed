@@ -146,8 +146,9 @@ public class Dealer {
         if (middleCur.contains(target)) {
         	if (cardFromPlayer.isNeighbor(target)) {
         		player.removeHandCard(cardFromPlayer);
+        		int index = middleCur.indexOf(target);
         		middleCur.remove(target);
-        		middleCur.add(cardFromPlayer);
+        		middleCur.add(index, cardFromPlayer);
         		results[0] = true;
                 if (player.getCardsOnHand().size() == 0 && player.getCardsOnSide().size() == 0) {
                     results[1] = true;
