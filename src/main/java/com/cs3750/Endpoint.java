@@ -131,12 +131,13 @@ public class Endpoint {
             	ResultsMessage results = (ResultsMessage)returnMessage;
             	
             	if (results.isWin()) {
-            		session.getBasicRemote().sendText("Contratulations, you won!");
+            		System.out.println("found win");
+            		session.getBasicRemote().sendText(MessageFactory.getGameMessage("Contratulations, you won!"));
             		
             		if (connections.indexOf(currentClient) == 0) {
-            			connections.get(1).getSession().getBasicRemote().sendText("You lost!");
+            			connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getGameMessage("You lost!"));
             		} else {
-            			connections.get(0).getSession().getBasicRemote().sendText("You lost!");
+            			connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getGameMessage("You lost!"));
             		}
             	} else if (results.isStuck()) {
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddles()));

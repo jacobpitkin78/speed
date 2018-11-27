@@ -148,6 +148,7 @@ public class Dealer {
         		middleCur.add(cardFromPlayer);
         		results[0] = true;
                 if (player.getCardsOnHand().size() == 0 && player.getCardsOnSide().size() == 0) {
+                	System.out.println("should be a win for " + player.getName());
                     results[1] = true;
                 }
         	}
@@ -189,8 +190,17 @@ public class Dealer {
     	middleOld.set(0, middleCur.get(0));
     	middleOld.set(1, middleCur.get(1));
     	
-    	middleCur.set(0, getPlayerA().popMiddleSide());
-    	middleCur.set(1, getPlayerB().popMiddleSide());
+    	Card left = getPlayerA().popMiddleSide();
+    	Card right = getPlayerB().popMiddleSide();
+    	
+    	if (left == null && right == null) {
+    		System.out.println(middleOld);
+    	}
+    	
+//    	middleCur.set(0, getPlayerA().popMiddleSide());
+//    	middleCur.set(1, getPlayerB().popMiddleSide());
+    	middleCur.set(0, left);
+    	middleCur.set(1, right);
     	
     	return true;
     }
