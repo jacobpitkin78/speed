@@ -5,14 +5,16 @@ import java.util.List;
 public class StartMessage extends Message {
 	
 	private List<Integer> playerAOnHand, playerBOnHand, middle;
+	private Integer onSide;
 	
 
 	public StartMessage(List<Integer> playerAOnHand, List<Integer> playerBOnHand,
-			List<Integer> middle) {
+			List<Integer> middle, Integer onSide) {
 		super("start");
 		this.playerAOnHand = playerAOnHand;
 		this.playerBOnHand = playerBOnHand;
 		this.middle = middle;
+		this.onSide = onSide;
 	}
 
 	public StartMessage() {
@@ -46,13 +48,21 @@ public class StartMessage extends Message {
 	public void setMiddle(List<Integer> middle) {
 		this.middle = middle;
 	}
+	
+	public Integer getOnSide() {
+		return onSide;
+	}
+	
+	public void setOnSide(Integer onSide) {
+		this.onSide = onSide;
+	}
 
 	@Override
 	public String toString() {
 		return "StartMessage [playerAOnHand=" + playerAOnHand + ", playerBOnHand=" + playerBOnHand + ", middle="
 				+ middle + ", type=" + type + ", username=" + username + ", getUsername()=" + getUsername()
 				+ ", getPlayerAOnHand()=" + getPlayerAOnHand() + ", getPlayerBOnHand()=" + getPlayerBOnHand()
-				+ ", getMiddle()=" + getMiddle() + ", getType()=" + getType() + ", getClass()=" + getClass()
+				+ ", getMiddle()=" + getMiddle() + ", onSide=" + onSide + ", getType()=" + getType() + ", getClass()=" + getClass()
 				+ ", hashCode()=" + hashCode() + ", toString()=" + super.toString() + "]";
 	}
 

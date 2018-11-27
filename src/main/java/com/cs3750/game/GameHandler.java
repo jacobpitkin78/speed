@@ -61,7 +61,7 @@ public class GameHandler {
 				
 				started = true;
 				
-				return new StartMessage(cardIntConverter(game.getDealer().getPlayerA().getCardsOnHand()),cardIntConverter(game.getDealer().getPlayerB().getCardsOnHand()), cardIntConverter(game.getDealer().getMiddleCur()));
+				return new StartMessage(cardIntConverter(game.getDealer().getPlayerA().getCardsOnHand()),cardIntConverter(game.getDealer().getPlayerB().getCardsOnHand()), cardIntConverter(game.getDealer().getMiddleCur()), dealer.getPlayerA().getCardsOnMiddleSide().size());
 			
 			} else {
 				
@@ -84,12 +84,12 @@ public class GameHandler {
 						
 						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerB().getCardsOnHand()),
-								dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size());
+								dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnMiddleSide().size());
 					} else if (username.equals(dealer.getPlayerBName())) {
 						
 						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerB().getCardsOnHand()),
-								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size());
+								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnMiddleSide().size());
 					}
 				} else if (username.equals(game.getDealer().getPlayerBName())) {
 					Player player = game.getDealer().getPlayerB();
@@ -99,12 +99,12 @@ public class GameHandler {
 						
 						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerA().getCardsOnHand()),
-								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size());
+								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnMiddleSide().size());
 					} else if (username.equals(dealer.getPlayerBName())) {
 						
 						return new ResultsMessage(username, results, cardIntConverter(dealer.getMiddleCur()), cardIntConverter(dealer.getMiddleOld()),
 								cardIntConverter(dealer.getPlayerA().getCardsOnHand()), cardIntConverter(dealer.getPlayerB().getCardsOnHand()),
-								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size());
+								dealer.getPlayerB().getCardsOnSide().size(), dealer.getPlayerA().getCardsOnSide().size(), dealer.getPlayerB().getCardsOnMiddleSide().size());
 					}
 				}
 			}

@@ -13,9 +13,10 @@ public class ResultsMessage extends Message{
 	private List<Integer> playerBCards;
 	private Integer onSideA;
 	private Integer onSideB;
+	private Integer onMiddleSide;
 
 	public ResultsMessage(String username, boolean[] results, List<Integer> middlesCur, List<Integer> middlesOld, 
-			List<Integer> playerACards, List<Integer> playerBCards, Integer onSideA, Integer onSideB) {
+			List<Integer> playerACards, List<Integer> playerBCards, Integer onSideA, Integer onSideB, Integer onMiddleSide) {
 		super(username);
 //		this.isWin = results[0];
 //		this.isMoved = results[1];
@@ -28,13 +29,14 @@ public class ResultsMessage extends Message{
 		this.playerBCards = playerBCards;
 		this.onSideA = onSideA;
 		this.onSideB = onSideB;
+		this.onMiddleSide = onMiddleSide;
 	}
 	
 	@Override
 	public String toString() {
 		return "ResultsMessage [isWin=" + isWin + ", isMoved=" + isMoved + ", isStuck=" + isStuck + ", middlesOld="
 				+ middlesOld + ", middlesCur=" + middlesCur + ", playerACards=" + playerACards + ", playerBCards="
-				+ playerBCards + ", onSideA=" + onSideA + ", onSideB=" + onSideB + ", type=" + type + ", username="
+				+ playerBCards + ", onSideA=" + onSideA + ", onSideB=" + onSideB + ", onMiddleSide=" + onMiddleSide + ", type=" + type + ", username="
 				+ username + ", isWin()=" + isWin() + ", getMiddles()=" + getMiddles() + ", getPlayerACards()="
 				+ getPlayerACards() + ", getPlayerBCards()=" + getPlayerBCards() + ", getOnSideA()=" + getOnSideA()
 				+ ", getOnSideB()=" + getOnSideB() + ", isMoved()=" + isMoved() + ", isStuck()=" + isStuck()
@@ -85,6 +87,14 @@ public class ResultsMessage extends Message{
 
 	public void setOnSideB(Integer onSideB) {
 		this.onSideB = onSideB;
+	}
+	
+	public Integer getOnMiddleSide() {
+		return onMiddleSide;
+	}
+	
+	public void setOnMiddleSide(Integer onMiddleSide) {
+		this.onMiddleSide = onMiddleSide;
 	}
 
 	public void setWin(boolean isWin) {

@@ -11,13 +11,19 @@ public class MiddleCards extends Message {
 	}
 
 	private List<Integer> cards;
+	private Integer onSide;
 	
-	public MiddleCards(List<Integer> cards) {
+	public MiddleCards(List<Integer> cards, Integer onSide) {
 		super("middle");
 		this.cards = cards;
+		this.onSide = onSide;
 	}
 	
 	public List<Integer> getCards() {
 		return cards;
+	}
+	
+	public Integer getOnSide() {
+		return onSide;
 	}
 }

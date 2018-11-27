@@ -107,10 +107,10 @@ public class MessageFactory {
 	}
 	
 	public static String getMiddleCards(MiddleCards middleCards) {
-		return getMiddleCards(middleCards.getCards());
+		return getMiddleCards(middleCards.getCards(), middleCards.getOnSide());
 	}
 	
-	public static String getMiddleCards(List<Integer> cards) {
+	public static String getMiddleCards(List<Integer> cards, Integer onSide) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "middleCards");
 		
@@ -125,6 +125,7 @@ public class MessageFactory {
 		arrBuilder.add(Json.createObjectBuilder().add("card", "b"));
 		
 		objBuilder.add("cards", arrBuilder);
+		objBuilder.add("side", onSide);
 		
 		return objBuilder.build().toString();
 	}
@@ -165,13 +166,14 @@ public class MessageFactory {
 	}
 	
 	public static String getStartMessage(StartMessage startMessage) {
-		return getStartMessage(startMessage.getUsername());
+		return getStartMessage(startMessage.getUsername(), startMessage.getOnSide());
 	}
 	
-	public static String getStartMessage(String username) {
+	public static String getStartMessage(String username, Integer onSide) {
 		JsonObjectBuilder objBuilder = Json.createObjectBuilder();
 		objBuilder.add("type", "start");
 		objBuilder.add("player", username);
+		objBuilder.add("side", onSide);
 		
 		return objBuilder.build().toString();
 	}

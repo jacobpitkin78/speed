@@ -139,8 +139,8 @@ public class Endpoint {
             			connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getGameMessage("You lost!"));
             		}
             	} else if (results.isStuck()) {
-            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddles()));
-            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddles()));
+            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddles(), results.getOnMiddleSide()));
+            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddles(), results.getOnMiddleSide()));
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getStuckMessage());
             		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getStuckMessage());
             		
@@ -150,11 +150,11 @@ public class Endpoint {
             			// waiting for 3 seconds to send the middles
             		}
             		
-            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
-            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
+            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter(), results.getOnMiddleSide()));
+            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter(), results.getOnMiddleSide()));
             	} else if (results.isMoved()) {
-            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
-            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter()));
+            		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter(), results.getOnMiddleSide()));
+            		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(results.getMiddlesAfter(), results.getOnMiddleSide()));
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getPlayerCards(results.getPlayerACards()));
             		connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getPlayerCards(results.getPlayerBCards()));
             		connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getOpponentCards(results.getPlayerBCards()));
@@ -170,12 +170,12 @@ public class Endpoint {
             	
             	connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getOpponentCards(start.getPlayerBOnHand()));
             	connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getOpponentCards(start.getPlayerAOnHand()));
-            	connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(start.getMiddle()));
-            	connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(start.getMiddle()));
+            	connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(start.getMiddle(), start.getOnSide()));
+            	connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getMiddleCards(start.getMiddle(), start.getOnSide()));
             	connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getPlayerCards(start.getPlayerAOnHand()));
             	connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getPlayerCards(start.getPlayerBOnHand()));
-            	connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getStartMessage(connections.get(1).getUsername()));
-            	connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getStartMessage(connections.get(0).getUsername()));
+            	connections.get(0).getSession().getBasicRemote().sendText(MessageFactory.getStartMessage(connections.get(1).getUsername(), start.getOnSide()));
+            	connections.get(1).getSession().getBasicRemote().sendText(MessageFactory.getStartMessage(connections.get(0).getUsername(), start.getOnSide()));
             }
         } catch (IOException e) {
         	e.printStackTrace();
