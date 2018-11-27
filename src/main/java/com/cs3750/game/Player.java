@@ -68,6 +68,10 @@ public class Player {
 
         return getCardsOnMiddleSide().pop();
     }
+    
+    public void pushMiddleSide(Card card) {
+    	getCardsOnMiddleSide().push(card);
+    }
 
     public Card requestToPlaceCard(Card card) {
         if (cardsOnHand.contains(card)) {

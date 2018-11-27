@@ -3,6 +3,7 @@ package com.cs3750.game;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 import com.cs3750.game.Card.Ranking;
 
@@ -12,6 +13,7 @@ public class Dealer {
     List<Card> middleCur = new ArrayList<Card>();
     List<Card> middleOld = new ArrayList<Card>();
     List<Card> playerOneCards, playerTwoCards;
+    List<Card> playedCards = new ArrayList<Card>();
     Deck deck;
     Player playerA, playerB;
 
@@ -148,7 +150,6 @@ public class Dealer {
         		middleCur.add(cardFromPlayer);
         		results[0] = true;
                 if (player.getCardsOnHand().size() == 0 && player.getCardsOnSide().size() == 0) {
-                	System.out.println("should be a win for " + player.getName());
                     results[1] = true;
                 }
         	}
@@ -165,11 +166,15 @@ public class Dealer {
     		if (card.isNeighbor(middleCur.get(0))) {
     	    	middleOld.set(0, middleCur.get(0));
     	    	middleOld.set(1, middleCur.get(1));
+    	    	playedCards.add(middleCur.get(0));
+    	    	playedCards.add(middleCur.get(1));
     			return false;
     		};
     		if (card.isNeighbor(middleCur.get(1))) {
     	    	middleOld.set(0, middleCur.get(0));
     	    	middleOld.set(1, middleCur.get(1));
+    	    	playedCards.add(middleCur.get(0));
+    	    	playedCards.add(middleCur.get(1));
     			return false;
     		};
     	}	
@@ -178,23 +183,51 @@ public class Dealer {
     		if (card.isNeighbor(middleCur.get(0))) {
     	    	middleOld.set(0, middleCur.get(0));
     	    	middleOld.set(1, middleCur.get(1));
+    	    	playedCards.add(middleCur.get(0));
+    	    	playedCards.add(middleCur.get(1));
     			return false;
     		};
     		if (card.isNeighbor(middleCur.get(1))) {
     	    	middleOld.set(0, middleCur.get(0));
     	    	middleOld.set(1, middleCur.get(1));
+    	    	playedCards.add(middleCur.get(0));
+    	    	playedCards.add(middleCur.get(1));
     			return false;
     		};
     	}
     	
     	middleOld.set(0, middleCur.get(0));
     	middleOld.set(1, middleCur.get(1));
+    	playedCards.add(middleCur.get(0));
+    	playedCards.add(middleCur.get(1));
     	
     	Card left = getPlayerA().popMiddleSide();
     	Card right = getPlayerB().popMiddleSide();
     	
     	if (left == null && right == null) {
-    		System.out.println(middleOld);
+    		System.out.println(playedCards);
+    		for (int i = 0; i < playedCards.size(); i++) {
+                Random random = new Random();
+
+                int r = i + random.nextInt(playedCards.size() - i);
+
+                Card temp = playedCards.get(r);
+                playedCards.set(r, playedCards.get(i));
+                playedCards.set(i, temp);
+            }
+    		
+    		for (int i = 0; i < playedCards.size(); i++) {
+    			if (i % 2 == 0) {
+    				getPlayerA().pushMiddleSide(playedCards.get(i));
+    			} else {
+    				getPlayerB().pushMiddleSide(playedCards.get(i));
+    			}
+    		}
+    		
+    		playedCards.clear();
+    		
+    		left = getPlayerA().popMiddleSide();
+    		right = getPlayerB().popMiddleSide();
     	}
     	
 //    	middleCur.set(0, getPlayerA().popMiddleSide());

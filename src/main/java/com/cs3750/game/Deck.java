@@ -31,6 +31,7 @@ public class Deck {
 
     public static Deck shuffle(Deck newDeck) {
         List<Card> decks = newDeck.getDeck();
+        System.out.println("deck size: " + decks.size());
         for (int i = 0; i < decks.size(); i++) {
             Random random = new Random();
 

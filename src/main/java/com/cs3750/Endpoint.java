@@ -131,7 +131,6 @@ public class Endpoint {
             	ResultsMessage results = (ResultsMessage)returnMessage;
             	
             	if (results.isWin()) {
-            		System.out.println("found win");
             		session.getBasicRemote().sendText(MessageFactory.getGameMessage("Contratulations, you won!"));
             		
             		if (connections.indexOf(currentClient) == 0) {
